@@ -1,0 +1,153 @@
+﻿@page "/wires3"
+@rendermode InteractiveServer
+
+<h3>Wires3</h3>
+
+<ul>
+    @if (showOption1)
+    {
+        <li id="option1">If there are no red wires, cut the second wire.</li>
+    }
+    @if (showOption2)
+    {
+        <li id="option2">Otherwise, if the last wire is white, cut the last wire.</li>
+    }
+
+    @if (showOption3)
+    {
+        <li id="option3">Otherwise, if there is more than one blue wire, cut the last blue wire.</li>
+    }
+    @if (showOption4)
+    {
+        <li id="option4">Otherwise, cut the last wire.</li>
+    }
+
+</ul>
+<div class="container">
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label for="redWireCount">Red Wire Count:</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="redWireCount" value="@redWireCount" @oninput="(e) => HandleInput(e, 3)" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="blackWireCount">Black Wire Count:</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="blackWireCount" value="@blueWireCount" @oninput="(e) => HandleInput(e, 1)" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="whiteWireCount">White Wire Count:</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="whiteWireCount" value="@whiteWireCount" @oninput="(e) => HandleInput(e, 2)" />
+        </div>
+        <div class="col-md-4">
+            <input type="checkbox" id="whiteWireCount" checked="@whiteWireLast" @oninput="CheckboxChanged_LastWhite"/>
+        </div>
+
+
+    </div>
+</div>
+@code {
+    private bool showOption1 = false;
+    private bool showOption2 = false;
+    private bool showOption3 = false;
+    private bool showOption4 = false;
+
+    private string blueWireCount = "";
+    private string whiteWireCount = "";
+    private string redWireCount = "";
+
+    private byte blueWireCountNum = 0;
+    private byte whiteWireCountNum = 0;
+    private byte redWireCountNum = 0;
+
+    private bool whiteWireLast = false;
+
+    protected override void OnParametersSet()
+    {
+        whiteWireLast = this.whiteWireLast;
+    }
+
+    private void CheckboxChanged_LastWhite(ChangeEventArgs e)
+    {
+        // get the checkbox state
+        whiteWireLast = (bool)e.Value;
+        DetermineAction();
+    }
+
+    private void HandleInput(ChangeEventArgs e, int colour)
+    {
+        GetWireValues(e, colour);
+        DetermineAction();
+    }
+
+    private void GetWireValues(ChangeEventArgs e, int colour)
+    {
+        string inputValue = e.Value?.ToString() ?? "";
+        if (byte.TryParse(inputValue, out byte result))
+        {
+            switch (colour)
+            {
+                case 1://Black
+                    blueWireCount = inputValue;
+                    blueWireCountNum = result;
+                    break;
+                case 2://White
+                    whiteWireCount = inputValue;
+                    whiteWireCountNum = result;
+                    break;
+                case 3://Red
+                    redWireCount = inputValue;
+                    redWireCountNum = result;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void DetermineAction()
+    {
+        showOption1 = true;
+        showOption2 = true;
+        showOption3 = true;
+        showOption4 = true;
+
+
+        if (redWireCountNum < 1)
+        {
+            showOption1 = true;
+            showOption2 = false;
+            showOption3 = false;
+            showOption4 = false;
+            return;
+        }
+
+        if (whiteWireLast)
+        {
+            showOption1 = false;
+            showOption2 = false;
+            showOption3 = false;
+            showOption4 = true;
+
+            return;
+        }
+
+        if (blueWireCountNum > 1)
+        {
+            showOption1 = false;
+            showOption2 = false;
+            showOption3 = true;
+            showOption4 = false;
+        }
+
+        showOption4 = true;
+
+
+    }
+}
