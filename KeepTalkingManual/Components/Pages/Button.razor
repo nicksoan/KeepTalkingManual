@@ -1,0 +1,154 @@
+﻿@page "/button"
+@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.Models
+@rendermode InteractiveServer
+
+<h3>Buttons</h3>
+
+<ul id="instructions">
+    @if (_buttonModule != null)
+    {
+        if (_buttonModule.Instructions.Any())
+        {
+            @foreach (var instruction in _buttonModule.Instructions)
+            {
+                foreach (var item in instruction.Instructions)
+                {
+                    <li>@item</li>
+                }
+            }
+        }
+    }
+
+</ul>
+
+
+<h3>Button Colour</h3>
+@foreach (var colour in Enum.GetValues<choices_ButtonColour>())
+{
+    <div class="col-md-8">
+        <label>
+            <input name="colourChoice" type="radio"
+                   value="@colour"
+                   checked="@(currentColourChoice == colour)"
+                   @onchange="@(() => UpdateChoice("colour", colour))">
+            @colour.ToString()
+        </label>
+    </div>
+}
+<br />
+<h3>Button Text</h3>
+@foreach (var text in Enum.GetValues<choices_ButtonText>())
+{
+    <div class="col-md-8">
+        <label>
+            <input name="textChoice" type="radio"
+                   value="@text"
+                   checked="@(currentTextChoice == text)"
+                   @onchange="@(() => UpdateChoice("text", text))">
+            @text.ToString()
+        </label>
+    </div>
+}
+
+<h3>Lit Indicators</h3>
+@foreach (var indicator in Enum.GetValues<choices_Indicatortext>())
+{
+    <input type="checkbox"
+           value="@indicator"
+           @onchange="(e => UpdateIndicatorList(e, indicator))" />
+    @indicator.ToString()
+}
+
+<h3>Battery Count</h3>
+@foreach (var number in new[] { 1, 2, 3, 4, 5, 6 })
+{
+    <div class="col-md-8">
+        <label>
+            <input name="numberOfBatteries" type="radio"
+                   value="@number"
+                   checked="@(currentNumberOfBatteries == number)"
+                   @onchange="@(() => UpdateNumberOfBatteries(number))">
+            @number
+        </label>
+    </div>
+}
+
+
+@if (_buttonModule != null && _buttonModule.Instructions.Any())
+{
+    if (_buttonModule.Instructions.First().RequiresHold)
+    {
+        <h3>Colour Strip</h3>
+        @foreach (var stripColour in Enum.GetValues<choices_ColourStrip>())
+        {
+            <div class="col-md-8">
+                <label>
+                    <input name="stripColourChoice" type="radio"
+                           value="@stripColour"
+                           checked="@(currentColourStrip == stripColour)"
+                           @onchange="@(() => UpdateChoice("colourstrip", stripColour))">
+                    @stripColour.ToString()
+                </label>
+            </div>
+        }
+    }
+}
+
+@code
+{
+    private ButtonModule _buttonModule = null;
+    private choices_ButtonColour currentColourChoice;
+    private choices_ButtonText currentTextChoice;
+    private choices_Indicatortext currentIndicatorText;
+    private choices_ColourStrip currentColourStrip;
+    private List<choices_Indicatortext> selectedIndicators = new List<choices_Indicatortext>();
+    private int currentNumberOfBatteries;
+
+
+    private void UpdateChoice(string listIdentifier, object choice)
+    {
+        switch (listIdentifier)
+        {
+            case "colour":
+                currentColourChoice = (choices_ButtonColour)choice;
+                break;
+            case "text":
+                currentTextChoice = (choices_ButtonText)choice;
+                break;
+            case "colourstrip":
+                currentColourStrip = (choices_ColourStrip)choice;
+                break;
+        }
+
+        HandleChoiceChange();
+    }
+
+    private void UpdateIndicatorList(ChangeEventArgs e, choices_Indicatortext indicator)
+    {
+        if (e.Value.ToString() == "true")
+        {
+            selectedIndicators.Add(indicator);
+        }
+        else
+        {
+            selectedIndicators.Remove(indicator);
+        }
+
+        HandleChoiceChange();
+    }
+
+    private void UpdateNumberOfBatteries(int numberOfBatteries)
+    {
+        currentNumberOfBatteries = numberOfBatteries;
+        HandleChoiceChange();
+    }
+
+    private async Task HandleChoiceChange()
+    {
+        _buttonModule = new ButtonModule(currentColourChoice, currentTextChoice, selectedIndicators, currentNumberOfBatteries, currentColourStrip);
+
+    }
+
+}
+

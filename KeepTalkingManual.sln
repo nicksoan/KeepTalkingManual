@@ -5,9 +5,9 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeepTalkingManual", "KeepTalkingManual\KeepTalkingManual.csproj", "{27555395-A7A1-4010-A6E1-1BB5DFF691F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeepTalkingManual.Lib", "KeepTalkingManual.Lib\KeepTalkingManual.Lib.csproj", "{90F3ADBB-B7B0-449D-9F1B-78705EAE5B5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeepTalkingManual.Lib", "KeepTalkingManual.Lib\KeepTalkingManual.Lib.csproj", "{90F3ADBB-B7B0-449D-9F1B-78705EAE5B5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeepTalkingManual.UnitTests", "KeepTalkingManual.UnitTests\KeepTalkingManual.UnitTests.csproj", "{EB6B1F1E-9AB3-49E4-9B9E-692EFB7B9FDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeepTalkingManual.UnitTests", "KeepTalkingManual.UnitTests\KeepTalkingManual.UnitTests.csproj", "{EB6B1F1E-9AB3-49E4-9B9E-692EFB7B9FDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

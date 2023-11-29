@@ -28,7 +28,7 @@ namespace KeepTalkingManual.Lib.Models
 
             var splitWires = wireOrder.Split(',');
 
-            byte p = 1;
+            int p = 1;
             foreach (var w in splitWires)
             {
                 string wText = w.Trim().ToLower();

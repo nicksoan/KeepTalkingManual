@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KeepTalkingManual.Lib.Models
 {
-    public class Wire
+    public class ButtonInstructions
     {
-        public string Colour { get; set; }
-        public int Position { get; set; }
+        public List<string> Instructions { get; set; } = new List<string>();
+        public bool RequiresHold { get; set; } = false;
     }
 }
