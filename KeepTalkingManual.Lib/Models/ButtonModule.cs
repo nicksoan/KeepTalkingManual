@@ -63,7 +63,7 @@ namespace KeepTalkingManual.Lib.Models
                 return ReturnInstructions(defuseInstructionText, "Red_Hold", false);
             }
 
-            return new List<ButtonInstructions>();
+            return ReturnInstructions(defuseInstructionText, "Otherwise", true, StripColour);
         }
 
         private static List<ButtonInstructions> ReturnInstructions(Dictionary<string, string> defuseInstructionText, string defuseInstructionKey, bool requiresHold, choices_ColourStrip colourStrip = choices_ColourStrip.None)
