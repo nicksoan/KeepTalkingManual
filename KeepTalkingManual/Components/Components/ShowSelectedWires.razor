@@ -1,8 +1,11 @@
 ﻿@using KeepTalkingManual.Lib.Enums
 @using KeepTalkingManual.Lib.HelperFunctions
+@using KeepTalkingManual.Lib.Services
+
+@inject WireService wireService
 
 <h3>SelectedWires</h3>
-@foreach (var wire in SelectedWireList)
+@foreach (var wire in wireService.SelectedWires)
 {
     <div class="col-md-4 mb-4">
         <div class="card h-100">
@@ -13,6 +16,7 @@
     </div>
 }
 @code {
-    [Parameter]
-    public List<choices_WireColour> SelectedWireList { get; set; }
+   [Parameter]
+    public List<choices_WireColour> SelectedWires { get; set; }
+
 }
