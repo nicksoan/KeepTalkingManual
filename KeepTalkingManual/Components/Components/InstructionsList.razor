@@ -1,0 +1,11 @@
+﻿<h3>InstructionsList</h3>
+<ul id="instructions">
+    @foreach (var item in Instructions)
+    {
+        <li>@item</li>
+    }
+</ul>
+@code {
+    [Parameter]
+    public List<string> Instructions { get; set; }
+}

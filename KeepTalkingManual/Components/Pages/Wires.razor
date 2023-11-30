@@ -2,37 +2,9 @@
 @rendermode InteractiveServer
 
 <h3>Wires</h3>
-<img src="images/Wires.png" alt="Description" />
 
-<!-- Buttons to toggle visibility -->
-<button @onclick="() => ShowComponent(3)">3 Wires</button>
-<button @onclick="() => ShowComponent(4)">4 Wires</button>
-<button @onclick="() => ShowComponent(5)">5 Wires</button>
-<button @onclick="() => ShowComponent(6)">6 Wires</button>
-
-<!-- Component Display -->
-@if (visibleComponent == 3)
-{
-    <Wires3 />
-}
-else if (visibleComponent == 4)
-{
-    <Wires4 />
-}
-else if (visibleComponent == 5)
-{
-    <Wires5 />
-}
-else if (visibleComponent == 6)
-{
-    <Wires6 />
-}
+<Wires3 />
 
 @code {
-    private int? visibleComponent = null;
 
-    private void ShowComponent(int componentNumber)
-    {
-        visibleComponent = componentNumber;
-    }
 }

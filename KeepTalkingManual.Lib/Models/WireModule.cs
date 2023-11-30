@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KeepTalkingManual.Lib.Enums;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,49 +10,15 @@ namespace KeepTalkingManual.Lib.Models
 {
     public class WireModule
     {
-        public List<Wire> Wires { get; set; }
         public List<string> Instructions { get; set; }
+        private readonly List<choices_WireColour> Wires;
         private readonly string? _SerialNumber;
 
-        public WireModule(string wireOrder, string? serialNumber = null)
+        public WireModule(List<choices_WireColour> wireOrder, string? serialNumber = null)
         {
             _SerialNumber = serialNumber ?? string.Empty;
-            Wires = UnpackWireOrder(wireOrder);
+            Wires = wireOrder;
             Instructions = GetInstructions();
-        }
-
-        private List<Wire> UnpackWireOrder(string wireOrder)
-        {
-            List<Wire> wires = new List<Wire>();
-
-            List<string> ValidColours = new List<string>() { "yellow", "red", "blue", "black", "white" };
-
-            var splitWires = wireOrder.Split(',');
-
-            int p = 1;
-            foreach (var w in splitWires)
-            {
-                string wText = w.Trim().ToLower();
-
-                if (ValidColours.Contains(wText))
-                {
-                    Wire wire = new Wire()
-                    {
-                        Colour = wText,
-                        Position = p
-                    };
-                    wires.Add(wire);
-                }
-                else
-                {
-                    wires.Clear();
-                    break;
-                }
-                p++;
-            }
-
-            return wires;
-
         }
 
         private List<string> GetInstructions()
@@ -72,19 +39,19 @@ namespace KeepTalkingManual.Lib.Models
             var instuctions = WiresInstuctions_3Wires();
             List<string> instructionOutput = new();
 
-            if (Wires.Count(w => w.Colour == "red") < 1)
+            if (Wires.Count(w => w == choices_WireColour.Red) < 1)
             {
                 instructionOutput.Add(instuctions["NoRed"]);
                 return instructionOutput;
             }
 
-            if (Wires.Last().Colour == "white")
+            if (Wires.Last() == choices_WireColour.White)
             {
                 instructionOutput.Add(instuctions["LastWhite"]);
                 return instructionOutput;
             }
 
-            if (Wires.Count(w => w.Colour == "blue") > 1)
+            if (Wires.Count(w => w == choices_WireColour.Blue) > 1)
             {
                 instructionOutput.Add(instuctions["MultipleBlue"]);
                 return instructionOutput;
@@ -110,25 +77,25 @@ namespace KeepTalkingManual.Lib.Models
                 return instructionOutput;
             }
 
-            if (Wires.Count(w => w.Colour == "red") > 1 && isSerialOdd)
+            if (Wires.Count(w => w == choices_WireColour.Red) > 1 && isSerialOdd)
             {
                 instructionOutput.Add(instuctions["Odd_MultipleRed"]);
                 return instructionOutput;
             }
 
-            if (Wires.Last().Colour == "yellow" && Wires.Count(w => w.Colour == "red") == 0)
+            if (Wires.Last() == choices_WireColour.Yellow && Wires.Count(w => w == choices_WireColour.Red) == 0)
             {
                 instructionOutput.Add(instuctions["Even_LastYellowNoRed"]);
                 return instructionOutput;
             }
 
-            if (Wires.Count(w => w.Colour == "blue") == 1)
+            if (Wires.Count(w => w == choices_WireColour.Blue) == 1)
             {
                 instructionOutput.Add(instuctions["Even_OneBlue"]);
                 return instructionOutput;
             }
 
-            if (Wires.Count(w => w.Colour == "yellow") > 1)
+            if (Wires.Count(w => w == choices_WireColour.Yellow) > 1)
             {
                 instructionOutput.Add(instuctions["Even_MultipleYellow"]);
                 return instructionOutput;
