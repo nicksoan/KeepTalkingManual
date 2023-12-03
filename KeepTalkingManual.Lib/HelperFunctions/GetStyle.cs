@@ -22,5 +22,19 @@ namespace KeepTalkingManual.Lib.HelperFunctions
                 _ => "default-checkbox"
             };
         }
+
+        public static string GetButtonStyle(choices_ButtonColour buttonColour)
+        {
+            return buttonColour switch
+            {
+                choices_ButtonColour.Red => "red-div",
+                choices_ButtonColour.Black => "black-div",
+                choices_ButtonColour.Blue => "blue-div",
+                choices_ButtonColour.White => "white-div",
+                choices_ButtonColour.Yellow => "yellow-div",
+                // Add more cases as needed
+                _ => "default-checkbox"
+            };
+        }
     }
 }
