@@ -1,10 +1,46 @@
-html, body {
+/*html {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+}*/
 
 a, .btn-link {
     color: #006bb7;
 }
+
+body {
+    background-color: #f2f2f2;
+    color: #333;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/*.button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}*/
+
+/*    .button:hover {
+        background-color: #0056b3;
+    }*/
 
 .btn-primary {
     color: #fff;

@@ -1,0 +1,22 @@
+﻿@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.HelperFunctions
+@using KeepTalkingManual.Lib.Services
+
+@inject WireService wireService
+
+<h3>SelectedWires</h3>
+@foreach (var wire in wireService.SelectedWires)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="@GetStyle.GetCheckboxStyle(wire)">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+}
+@code {
+   [Parameter]
+    public List<choices_WireColour> SelectedWires { get; set; }
+
+}

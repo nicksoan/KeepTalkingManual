@@ -1,129 +1,109 @@
 ﻿@page "/button"
 @using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.HelperFunctions
 @using KeepTalkingManual.Lib.Models
 @rendermode InteractiveServer
 
-<h3>Buttons</h3>
+<div class="pageLayout">
+    <div class="container">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 mb-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    <ul id="instructions">
-                        @if (_buttonModule != null)
-                        {
-                            if (_buttonModule.Instructions.Any())
-                            {
-                                @foreach (var instruction in _buttonModule.Instructions)
+        <h2 class="section-title">Buttons</h2>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-12">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <ul id="instructions">
+                                @if (_buttonModule != null)
                                 {
-                                    foreach (var item in instruction.Instructions)
+                                    if (_buttonModule.Instructions.Any())
                                     {
-                                        <li>@item</li>
+                                        @foreach (var instruction in _buttonModule.Instructions)
+                                        {
+                                            foreach (var item in instruction.Instructions)
+                                            {
+                                                <li>@item</li>
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        }
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3>Button Colour</h3>
-                    @foreach (var colour in Enum.GetValues<choices_ButtonColour>())
-                    {
-                        <div class="col-md-8">
-                            <label>
-                                <input name="colourChoice" type="radio"
-                                       value="@colour"
-                                       checked="@(currentColourChoice == colour)"
-                                       @onchange="@(() => UpdateChoice("colour", colour))">
-                                @colour.ToString()
-                            </label>
+                            </ul>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3>Button Text</h3>
-                    @foreach (var text in Enum.GetValues<choices_ButtonText>())
-                    {
-                        <div class="col-md-8">
-                            <label>
-                                <input name="textChoice" type="radio"
-                                       value="@text"
-                                       checked="@(currentTextChoice == text)"
-                                       @onchange="@(() => UpdateChoice("text", text))">
-                                @text.ToString()
-                            </label>
-                        </div>
-                    }
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3>Lit Indicators</h3>
-                    @foreach (var indicator in Enum.GetValues<choices_Indicatortext>())
-                    {
-                        <input type="checkbox"
-                               value="@indicator"
-                               @onchange="(e => UpdateIndicatorList(e, indicator))" />
-                        @indicator.ToString()
-                    }
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3>Battery Count</h3>
-                    @foreach (var number in new[] { 0, 1, 2, 3, 4, 5, 6 })
-                    {
-                        <div class="col-md-8">
-                            <label>
-                                <input name="numberOfBatteries" type="radio"
-                                       value="@number"
-                                       checked="@(currentNumberOfBatteries == number)"
-                                       @onchange="@(() => UpdateNumberOfBatteries(number))">
-                                @number
-                            </label>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-
-
-        @if (_buttonModule != null && _buttonModule.Instructions.Any())
-        {
-            if (_buttonModule.Instructions.First().RequiresHold)
-            {
+            <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h3>Colour Strip</h3>
-                            @foreach (var stripColour in Enum.GetValues<choices_ColourStrip>())
+                            <h3>Button Colour</h3>
+                            @foreach (var colour in Enum.GetValues<choices_ButtonColour>())
                             {
                                 <div class="col-md-8">
                                     <label>
-                                        <input name="stripColourChoice" type="radio"
-                                               value="@stripColour"
-                                               checked="@(currentColourStrip == stripColour)"
-                                               @onchange="@(() => UpdateChoice("colourstrip", stripColour))">
-                                        @stripColour.ToString()
+                                        <input name="colourChoice" type="radio"
+                                               value="@colour"
+                                               class="@GetStyle.GetButtonStyle(colour) "
+                                               checked="@(currentColourChoice == colour)"
+                                               @onchange="@(() => UpdateChoice("colour", colour))">
+                                        @colour.ToString()
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3>Button Text</h3>
+                            @foreach (var text in Enum.GetValues<choices_ButtonText>())
+                            {
+                                <div class="col-md-8">
+                                    <label>
+                                        <input name="textChoice" type="radio"
+                                               value="@text"
+                                               checked="@(currentTextChoice == text)"
+                                               @onchange="@(() => UpdateChoice("text", text))">
+                                        @text.ToString()
+                                    </label>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3>Lit Indicators</h3>
+                            @foreach (var indicator in Enum.GetValues<choices_Indicatortext>())
+                            {
+                                <input type="checkbox"
+                                       value="@indicator"
+                                       @onchange="(e => UpdateIndicatorList(e, indicator))" />
+                                @indicator.ToString()
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3>Battery Count</h3>
+                            @foreach (var number in new[] { 0, 1, 2, 3, 4, 5, 6 })
+                            {
+                                <div class="col-md-8">
+                                    <label>
+                                        <input name="numberOfBatteries" type="radio"
+                                               value="@number"
+                                               checked="@(currentNumberOfBatteries == number)"
+                                               @onchange="@(() => UpdateNumberOfBatteries(number))">
+                                        @number
                                     </label>
                                 </div>
                             }
@@ -131,12 +111,38 @@
                     </div>
                 </div>
 
-            }
-        }
 
+                @if (_buttonModule != null && _buttonModule.Instructions.Any())
+                {
+                    if (_buttonModule.Instructions.First().RequiresHold)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3>Colour Strip</h3>
+                                    @foreach (var stripColour in Enum.GetValues<choices_ColourStrip>())
+                                    {
+                                        <div class="col-md-8">
+                                            <label>
+                                                <input name="stripColourChoice" type="radio"
+                                                       value="@stripColour"
+                                                       checked="@(currentColourStrip == stripColour)"
+                                                       @onchange="@(() => UpdateChoice("colourstrip", stripColour))">
+                                                @stripColour.ToString()
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+            </div>
+        </div>
     </div>
 </div>
-
 
 
 @code

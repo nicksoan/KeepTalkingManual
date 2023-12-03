@@ -3,80 +3,95 @@
 @using KeepTalkingManual.Lib.Models
 @using KeepTalkingManual.Lib.HelperFunctions
 @using Components
+@using KeepTalkingManual.Lib.Services
+
+@inject WireService wireService
 
 @rendermode InteractiveServer
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 mb-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    @if (_wireModule != null)
-                    {
-                        if (_wireModule.Instructions.Any())
+<div class="pageLayout page-bg-01">
+    <div class="container">
+        <div class="section-title">
+            <h2>Wires</h2>
+        </div>
+        <p>Select wires in the order shown, from top to bottom.</p>
+        <div class="row">
+            <div class="col-md-12 mb-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        @if (wireService.WireModule != null)
                         {
-                            <KeepTalkingManual.Components.Components.InstructionsList Instructions="_wireModule.Instructions"/>
+                            if (wireService.WireModule.Instructions.Any())
+                            {
+                                <KeepTalkingManual.Components.Components.InstructionsList Instructions="@wireService.WireModule.Instructions" />
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <p>Select wires in the order shown, from top to bottom.</p>
-        <div class="col-md-9 mb-9">
-            <div class="card h-100">
-                <input type="button"
-                       value="Reset"
-                       @onclick="() => ClearWireSelection()" />
+        <div class="row">
 
-                <label for="txtSerialNumber" class="form-text">SerialNumber</label>
-                <input type="text" id="txtSerialNumber" class="form-text" @bind="serialNumber" @bind:event="oninput" @onkeyup="OnSerialNumberKeyup" placeholder="Enter Serial Number" />
+            @*  <KeepTalkingManual.Components.Components.UpdateWires /> *@
 
-                @foreach (var wire in Enum.GetValues<choices_WireColour>())
-                {
+          
+            <div class="col-md-9 mb-9">
+                <div class="card h-100">
                     <input type="button"
-                           value="@wire.ToString()"
-                           class="@GetStyle.GetCheckboxStyle(wire) button"
-                           @onclick="() => UpdateWireList(wire)" />
-                }
+                           value="Reset" @onclick="() => wireService.ClearWireSelection()" />
+
+                    <label for="txtSerialNumber" class="form-text">SerialNumber</label>
+                    <input type="text" id="txtSerialNumber" class="form-text" @bind="wireService.SerialNumber" @bind:event="oninput" @onkeyup="OnSerialNumberKeyup" placeholder="Enter Serial Number" />
+
+                    @foreach (var wire in Enum.GetValues<choices_WireColour>())
+                    {
+                        <input type="button"
+                               value="@wire.ToString()"
+                               class="@GetStyle.GetCheckboxStyle(wire) button"
+                               @onclick="() => wireService.UpdateWireList(wire)" />
+                    }
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 mb-3">
-           <KeepTalkingManual.Components.Components.SelectedWires SelectedWireList="selectedWires" />
+            <div class="col-md-3 mb-3">
+                <KeepTalkingManual.Components.Components.ShowSelectedWires SelectedWires="wireService.SelectedWires" />
+            </div>
         </div>
     </div>
 </div>
 
 @code {
-    private WireModule _wireModule;
-    private List<choices_WireColour> selectedWires = new List<choices_WireColour>();
-    private choices_WireColour currentWireColour;
-    private string serialNumber;
 
-    private void DetermineAction(List<choices_WireColour> wireList, string? serialNumber)
+    //private List<choices_WireColour> selectedWires = new List<choices_WireColour>();
+    //private choices_WireColour currentWireColour;
+    //private string serialNumber;
+
+    protected override void OnInitialized()
     {
-        _wireModule = new WireModule(wireList, serialNumber);
+
     }
 
-    private void UpdateWireList(choices_WireColour wireColour)
-    {
-        selectedWires.Add(wireColour);
+    // private void UpdateWireList(choices_WireColour wireColour)
+    // {
+    //     wireService.UpdateWireList(wireColour);
+    // }
 
-        DetermineAction(selectedWires, serialNumber);
-    }
+    // private void ClearWireSelection()
+    // {
+    //     wireService.ClearWireSelection();
+    // }    // private void UpdateWireList(choices_WireColour wireColour)
+    // {
+    //     wireService.UpdateWireList(wireColour);
+    // }
 
-    private void ClearWireSelection()
-    {
-        selectedWires.Clear();
-
-        DetermineAction(selectedWires, serialNumber);
-    }
+    // private void ClearWireSelection()
+    // {
+    //     wireService.ClearWireSelection();
+    // }
 
     private void OnSerialNumberKeyup(KeyboardEventArgs e)
     {
-        DetermineAction(selectedWires, serialNumber);
+        wireService.OnSerialNumberKeyup(wireService.SerialNumber);
     }
-    
+
+
 }
