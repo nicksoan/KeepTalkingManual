@@ -1,0 +1,72 @@
+﻿@page "/keypad"
+@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.Models.KeypadSymbols
+
+
+@rendermode InteractiveServer
+<div class="pageLayout page-bg-01">
+    <div class="container">
+        <h2 class="section-title">Keypad</h2>
+
+        <div class="row">
+            <div class="col-md-12 mb-12">
+                <div class="keypad">
+                    @foreach (var symbol in Enum.GetValues<choices_KeypadSymbol>())
+                    {
+                        <div class="keypad-symbol" @onclick="() => AddSymbolToList(symbol)">
+                            <img src="@($"images/KeypadSymbols/{symbol.ToString().ToLower()}.png")" alt="@symbol" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label>@result</label>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-12">
+
+                <button @onclick="ResetSelectedSymbols" class="btn btn-outline-secondary">
+                    <img src="images/arrow-counterclockwise.svg" />
+                </button>
+
+                <div class="">
+                    <ul>
+                        @if (selectedSymbols.Any())
+                        {
+                            foreach (var symbol in selectedSymbols)
+                            {
+                                <li>@symbol</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<choices_KeypadSymbol> selectedSymbols = new List<choices_KeypadSymbol>();
+    private KeypadSymbolModule KeypadSymbolModule = new KeypadSymbolModule();
+    private string result = "";
+
+    private void AddSymbolToList(choices_KeypadSymbol symbol)
+    {
+        selectedSymbols.Add(symbol);
+        HandleChange();
+    }
+
+    private void ResetSelectedSymbols()
+    {
+        selectedSymbols.Clear();
+        HandleChange();
+    }
+
+    private void HandleChange()
+    {
+        result = KeypadSymbolModule.GetInstructions(selectedSymbols);
+    }
+}
