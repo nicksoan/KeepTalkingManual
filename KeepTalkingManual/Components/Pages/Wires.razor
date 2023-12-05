@@ -1,10 +1,92 @@
 ﻿@page "/wires"
+@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.Models
+@using KeepTalkingManual.Lib.HelperFunctions
+@using Components
+@using KeepTalkingManual.Lib.Services
+
+@inject WireService wireService
+
 @rendermode InteractiveServer
+<div class="pageLayout">
+    <div class="container">
+        <h2 class="section-title">Wires</h2>
+        <p>Select wires in the order shown, from top to bottom.</p>
 
-<h3>Wires</h3>
+        <div class="row">
+            <div class="col-md-12 mb-12">
+                @if (wireService.WireModule != null)
+                {
+                    if (wireService.WireModule.Instructions.Any())
+                    {
+                        <KeepTalkingManual.Components.Components.InstructionsList Instructions="@wireService.WireModule.Instructions" />
+                    }
+                }
+            </div>
+        </div>
 
-<Wires3 />
+        <div class="row">
+
+            @*  <KeepTalkingManual.Components.Components.UpdateWires /> *@
+
+
+            <div class="col-md-9 mb-9">
+
+                <button @onclick="() => wireService.ClearWireSelection()" class="btn btn-outline-secondary">
+                    <img src="images/arrow-counterclockwise.svg" />
+                </button>
+
+                <label for="txtSerialNumber" class="form-text">SerialNumber</label>
+                <input type="text" id="txtSerialNumber" class="form-text" @bind="wireService.SerialNumber" @bind:event="oninput" @onkeyup="OnSerialNumberKeyup" placeholder="Enter Serial Number" />
+
+                @foreach (var wire in Enum.GetValues<choices_WireColour>())
+                {
+                    <input type="button"
+                           value="@wire.ToString()"
+                           class="@GetStyle.GetCheckboxStyle(wire) button"
+                           @onclick="() => wireService.UpdateWireList(wire)" />
+                }
+            </div>
+            <div class="col-md-3 mb-3">
+                <KeepTalkingManual.Components.Components.ShowSelectedWires SelectedWires="wireService.SelectedWires" />
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+
+    //private List<choices_WireColour> selectedWires = new List<choices_WireColour>();
+    //private choices_WireColour currentWireColour;
+    //private string serialNumber;
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    // private void UpdateWireList(choices_WireColour wireColour)
+    // {
+    //     wireService.UpdateWireList(wireColour);
+    // }
+
+    // private void ClearWireSelection()
+    // {
+    //     wireService.ClearWireSelection();
+    // }    // private void UpdateWireList(choices_WireColour wireColour)
+    // {
+    //     wireService.UpdateWireList(wireColour);
+    // }
+
+    // private void ClearWireSelection()
+    // {
+    //     wireService.ClearWireSelection();
+    // }
+
+    private void OnSerialNumberKeyup(KeyboardEventArgs e)
+    {
+        wireService.OnSerialNumberKeyup(wireService.SerialNumber);
+    }
+
 
 }

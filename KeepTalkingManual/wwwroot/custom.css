@@ -107,6 +107,10 @@ body {
     background-attachment: fixed;
 }
 
+.row {
+    margin-bottom:5px;
+}
+
 @media print {
     body {
         background: none;

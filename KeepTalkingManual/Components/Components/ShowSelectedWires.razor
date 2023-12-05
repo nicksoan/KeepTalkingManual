@@ -8,15 +8,13 @@
 @foreach (var wire in wireService.SelectedWires)
 {
     <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="@GetStyle.GetCheckboxStyle(wire)">
-                &nbsp;
-            </div>
+        <div class="@GetStyle.GetCheckboxStyle(wire)">
+            &nbsp;
         </div>
     </div>
 }
 @code {
-   [Parameter]
+    [Parameter]
     public List<choices_WireColour> SelectedWires { get; set; }
 
 }

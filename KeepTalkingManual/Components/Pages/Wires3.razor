@@ -10,23 +10,18 @@
 @rendermode InteractiveServer
 <div class="pageLayout page-bg-01">
     <div class="container">
-        <div class="section-title">
-            <h2>Wires</h2>
-        </div>
+        <h2 class="section-title">Wires</h2>
         <p>Select wires in the order shown, from top to bottom.</p>
+
         <div class="row">
             <div class="col-md-12 mb-12">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if (wireService.WireModule != null)
-                        {
-                            if (wireService.WireModule.Instructions.Any())
-                            {
-                                <KeepTalkingManual.Components.Components.InstructionsList Instructions="@wireService.WireModule.Instructions" />
-                            }
-                        }
-                    </div>
-                </div>
+                @if (wireService.WireModule != null)
+                {
+                    if (wireService.WireModule.Instructions.Any())
+                    {
+                        <KeepTalkingManual.Components.Components.InstructionsList Instructions="@wireService.WireModule.Instructions" />
+                    }
+                }
             </div>
         </div>
 
@@ -34,23 +29,23 @@
 
             @*  <KeepTalkingManual.Components.Components.UpdateWires /> *@
 
-          
+
             <div class="col-md-9 mb-9">
-                <div class="card h-100">
+
+                <button @onclick="() => wireService.ClearWireSelection()" class="btn btn-outline-secondary">
+                    <img src="images/arrow-counterclockwise.svg" />
+                </button>
+
+                <label for="txtSerialNumber" class="form-text">SerialNumber</label>
+                <input type="text" id="txtSerialNumber" class="form-text" @bind="wireService.SerialNumber" @bind:event="oninput" @onkeyup="OnSerialNumberKeyup" placeholder="Enter Serial Number" />
+
+                @foreach (var wire in Enum.GetValues<choices_WireColour>())
+                {
                     <input type="button"
-                           value="Reset" @onclick="() => wireService.ClearWireSelection()" />
-
-                    <label for="txtSerialNumber" class="form-text">SerialNumber</label>
-                    <input type="text" id="txtSerialNumber" class="form-text" @bind="wireService.SerialNumber" @bind:event="oninput" @onkeyup="OnSerialNumberKeyup" placeholder="Enter Serial Number" />
-
-                    @foreach (var wire in Enum.GetValues<choices_WireColour>())
-                    {
-                        <input type="button"
-                               value="@wire.ToString()"
-                               class="@GetStyle.GetCheckboxStyle(wire) button"
-                               @onclick="() => wireService.UpdateWireList(wire)" />
-                    }
-                </div>
+                           value="@wire.ToString()"
+                           class="@GetStyle.GetCheckboxStyle(wire) button"
+                           @onclick="() => wireService.UpdateWireList(wire)" />
+                }
             </div>
             <div class="col-md-3 mb-3">
                 <KeepTalkingManual.Components.Components.ShowSelectedWires SelectedWires="wireService.SelectedWires" />

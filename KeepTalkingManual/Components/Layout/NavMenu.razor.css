@@ -62,6 +62,7 @@
     .nav-item ::deep .nav-link {
         color: rgba(0,0,0,0.8);
         background: none;
+        background-color: rgb(214, 198, 160, 0.95);
         border: none;
         border-radius: 4px;
         height: 3rem;
@@ -69,11 +70,14 @@
         align-items: center;
         line-height: 3rem;
         width: 100%;
+        box-shadow: -1px 1px 3px 0px #252323;
+        margin:5px 0px 2px 5px;
     }
 
     .nav-item ::deep a.active {
-        background-color: rgb(88, 67, 19, 0.92);
+        background-color: rgb(247, 209, 121, 0.92);
         color: rgb(0, 0, 0, 0.7);
+        text-decoration:underline;
     }
 
     .nav-item ::deep .nav-link:hover {
