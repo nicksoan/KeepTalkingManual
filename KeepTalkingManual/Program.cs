@@ -1,4 +1,5 @@
 using KeepTalkingManual.Components;
+using KeepTalkingManual.Components.Pages;
 using KeepTalkingManual.Lib.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<WireService>();
+builder.Services.AddSingleton<SymbolService>();
 
 var app = builder.Build();
 

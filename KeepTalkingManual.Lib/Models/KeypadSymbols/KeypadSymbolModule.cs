@@ -27,7 +27,7 @@ namespace KeepTalkingManual.Lib.Models.KeypadSymbols
             }
             else
             {
-                returnText ="No matching sets found.";
+                returnText ="";
             }
 
             return returnText;

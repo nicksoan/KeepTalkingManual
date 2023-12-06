@@ -18,8 +18,14 @@ namespace KeepTalkingManual.Lib.Models.KeypadSymbols
 
         public List<string> FindListNameWithMostMatches(List<choices_KeypadSymbol> userInput)
         {
-            int maxMatches = 0;
             List<string> bestMatchingListNames = new List<string>();
+
+            if (!userInput.Any())
+            {
+                return bestMatchingListNames;
+            }
+            
+            int maxMatches = 0;
 
             foreach (var pair in predefinedLists)
             {

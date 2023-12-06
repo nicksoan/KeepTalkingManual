@@ -538,10 +538,17 @@ q {
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* Adjust number of columns as needed */
     gap: 10px; /* Space between grid items */
+    background-color:antiquewhite;
+    padding:10px;
+}
+
+.OffCenterRotation {
+    transform: skewY(5deg) translateY(-1.5%);
+    transform-origin: left;
 }
 
 .keypad-symbol {
-    background-color: #fff; /* Background color of each cell */
+    background-color: #faf8f8; /* Background color of each cell */
     border: 1px solid #ccc; /* Border for each cell */
     border-radius:0.5em;
     padding: 10px;

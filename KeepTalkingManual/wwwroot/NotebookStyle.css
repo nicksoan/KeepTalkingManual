@@ -34,7 +34,7 @@
     line-height: 1;
     height: 100vh; /* Adjust the height as needed */
     padding: 0px 0px 0px 20px;
-    box-shadow: 0px 0px 5px 0px #888;
+    box-shadow: 0px 0px 12px 0px #888;
 }
 
 /*.highlight {
