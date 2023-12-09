@@ -107,6 +107,10 @@ body {
     background-attachment: fixed;
 }
 
+.row {
+    margin-bottom:5px;
+}
+
 @media print {
     body {
         background: none;
@@ -477,7 +481,12 @@ q {
     padding: 0;
 }
 
-.section-title .page-content {
+.section-title {
+    text-align: left;
+    margin:1em;
+}
+
+.page-content {
     text-align: center;
 }
 
@@ -522,8 +531,34 @@ q {
 }
 
 .keypad-symbol-image {
-    height: 1.9em;
+    height: 1em;
 }
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Adjust number of columns as needed */
+    gap: 10px; /* Space between grid items */
+    background-color:antiquewhite;
+    padding:10px;
+}
+
+.OffCenterRotation {
+    transform: skewY(5deg) translateY(-1.5%);
+    transform-origin: left;
+}
+
+.keypad-symbol {
+    background-color: #faf8f8; /* Background color of each cell */
+    border: 1px solid #ccc; /* Border for each cell */
+    border-radius:0.5em;
+    padding: 10px;
+    text-align: center;
+}
+
+    .keypad-symbol img {
+        width: 2em; 
+        
+    }
 
 
 /* SIMON */

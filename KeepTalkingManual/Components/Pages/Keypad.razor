@@ -1,0 +1,56 @@
+﻿@page "/keypad"
+@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.Models.KeypadSymbols
+@using KeepTalkingManual.Lib.Services
+
+@inject SymbolService symbolService
+
+@rendermode InteractiveServer
+<div class="pageLayout">
+    <div class="container">
+        <h2 class="section-title">Keypad</h2>
+        @if (!String.IsNullOrWhiteSpace(symbolService.Result))
+        {
+            <div class="row">
+                <label class="highlight">@symbolService.Result</label>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-12 mb-12">
+                <div class="keypad">
+                    @foreach (var symbol in Enum.GetValues<choices_KeypadSymbol>())
+                    {
+                        <div class="keypad-symbol" @onclick="() => symbolService.AddSymbolToList(symbol)">
+                            <img src="@($"images/KeypadSymbols/{symbol.ToString().ToLower()}.png")" alt="@symbol" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-12">
+
+                <button @onclick="symbolService.ResetSelectedSymbols" class="btn btn-outline-secondary">
+                    <img src="images/arrow-counterclockwise.svg" />
+                </button>
+
+                <div class="">
+                    <ul>
+                        @if (symbolService.SelectedSymbols.Any())
+                        {
+                            foreach (var symbol in symbolService.SelectedSymbols)
+                            {
+                                <li>@symbol</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

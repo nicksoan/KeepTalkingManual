@@ -36,5 +36,18 @@ namespace KeepTalkingManual.Lib.HelperFunctions
                 _ => "default-checkbox"
             };
         }
+
+        public static string GetSimonSaysStyle(choices_SimonSaysColours colour)
+        {
+            return colour switch
+            {
+                choices_SimonSaysColours.Red => "red-div",
+                choices_SimonSaysColours.Blue => "blue-div",
+                choices_SimonSaysColours.Yellow => "yellow-div",
+                choices_SimonSaysColours.Green => "green-div",
+                // Add more cases as needed
+                _ => "default-checkbox"
+            };
+        }
     }
 }
