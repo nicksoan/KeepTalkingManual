@@ -114,6 +114,13 @@ h1:focus {
     border: 1px solid #101010;
 }
 
+.green-div {
+    background: #06d617;
+    margin: 5px 5px;
+    border-radius: 5px;
+    border: 1px solid #101010;
+}
+
 .white-div {
     background: #fff;
     margin: 5px 5px;

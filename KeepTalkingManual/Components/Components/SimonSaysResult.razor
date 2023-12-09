@@ -1,0 +1,32 @@
+﻿@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.HelperFunctions
+<h3>SimonSaysResult</h3>
+
+@if (selectedColours.Any())
+{
+    <div class="col-md-12 mb-12">
+        <table>
+            <thead>
+                <tr>
+                    <th class="red-div">Red</th>
+                    <th class="blue-div">Blue</th>
+                    <th class="green-div">Green</th>
+                    <th class="yellow-div">Yellow</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="@GetStyle.GetSimonSaysStyle(selectedColours[0])">@selectedColours[0]</td>
+                    <td class="@GetStyle.GetSimonSaysStyle(selectedColours[1])">@selectedColours[1]</td>
+                    <td class="@GetStyle.GetSimonSaysStyle(selectedColours[2])">@selectedColours[2]</td>
+                    <td class="@GetStyle.GetSimonSaysStyle(selectedColours[3])">@selectedColours[3]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<choices_SimonSaysColours> selectedColours { get; set; }
+}

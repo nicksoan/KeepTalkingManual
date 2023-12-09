@@ -1,0 +1,67 @@
+﻿@page "/simonsays"
+@using KeepTalkingManual.Lib.Enums
+@using KeepTalkingManual.Lib.HelperFunctions
+@using KeepTalkingManual.Lib.Models.KeypadSymbols
+@using KeepTalkingManual.Lib.Models.SimonSays
+
+@rendermode InteractiveServer
+<div class="pageLayout">
+    <div class="container">
+        <h2 class="section-title">Simon Says</h2>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h3 class="section-title">Serial Number</h3>
+                <input type="text" id="txtSerialNumber" class="form-text" @bind="SerialNumber" @bind:event="oninput" @onkeyup="HandleChoiceChange" placeholder="Enter Serial Number" />
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <h3 class="section-title">Battery Count</h3>
+                @foreach (var number in new[] { 0, 1, 2 })
+                {
+                    <div class="col-md-8">
+                        <label>
+                            <input name="numberOfBatteries" type="radio"
+                                   value="@number"
+                                   checked="@(CurrentStrikes == number)"
+                                   @onchange="@(() => UpdateStrikes(number))">
+                            @number
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <KeepTalkingManual.Components.Components.SimonSaysResult selectedColours="@selectedColours" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<choices_SimonSaysColours> selectedColours = new List<choices_SimonSaysColours>();
+    private int CurrentStrikes = 0;
+    private string SerialNumber = "";
+
+    // private void AddSymbolToList()
+    // {
+
+
+    // }
+
+    private async Task UpdateStrikes(int strikes)
+    {
+        CurrentStrikes = strikes;
+        await HandleChoiceChange();
+    }
+    private async Task UpdateSerialNumber(string serialNumber)
+    {
+        SerialNumber = serialNumber;
+        await HandleChoiceChange();
+    }
+
+    private async Task HandleChoiceChange()
+    {
+        var simonSaysModule = new SimonSaysModule();
+        selectedColours = simonSaysModule.GetInstructions(CurrentStrikes, SerialNumber);
+    }
+}
